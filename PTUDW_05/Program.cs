@@ -1,4 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using PTUDW_05.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+#region add connection string
+builder.Services.AddDbContext<HarmicContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+#endregion
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -21,3 +31,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+#region Thay Thanh
+//scaffold - DbContext "data source=DESKTOP-IV0MTE3\SQLEXPRESS;initial catalog=Harmic;integrated security=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer - OutputDir Models
+#endregion
