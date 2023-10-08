@@ -1,0 +1,63 @@
+﻿@model IEnumerable<TbBlog>
+@using PTUDW.Utilities;
+
+@{
+    List<TbBlogComment> listComment = ViewBag.blogComment;
+}
+
+<style>
+    .title {
+        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* số dòng hiển thị */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .short-desc {
+        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* số dòng hiển thị */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+
+@foreach (var item in Model)
+{
+    var blogId = item.BlogId;
+    var commentCount = listComment.Where(i => i.BlogId == blogId);
+    <div class="swiper-slide">
+        <div class="blog-item">
+            <div class="blog-img img-zoom-effect">
+                <a href="blog-detail-left-sidebar.html">
+                    <img class="img-full" src="@item.Image" alt="Blog Image">
+                </a>
+            </div>
+            <div class="blog-content">
+                <div class="blog-meta text-dim-gray pb-3">
+                    <ul>
+                        <li class="date"><i class="fa fa-calendar-o me-2"></i>@item.CreatedDate.Value.ToString("dd/MM/yyyy")</li>
+                        <li>
+                            <span class="comments me-3">
+                                <a href="javascript:void(0)">@commentCount.Count() Comments</a>
+                            </span>
+                            <span class="link-share">
+                                <a href="javascript:void(0)">Share</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="title mb-4">
+                    <a href="">@item.Title</a>
+                </h5>
+                <p class="short-desc mb-5">@item.Description</p>
+                <div class="button-wrap">
+                    <a class="btn btn-custom-size btn-dark btn-lg rounded-0" href="blog-detail-left-sidebar.html">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
