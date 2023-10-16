@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PTUDW.Models;
+using System.Configuration;
+using X.PagedList;
 
 namespace PTUDW.Controllers
 {
@@ -12,13 +14,16 @@ namespace PTUDW.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? page)
         {
-            var blogs = _context.TbBlogs.Where(i => (bool)i.IsActive).ToListAsync();
-            return View(await blogs);
+            if (page == null) page = 1;
+            int pageSize = 4;
+            var blogs = _context.TbBlogs.Where(i => (bool)i.IsActive).OrderByDescending(i => i.BlogId).ToPagedList((int)page, pageSize);
+            ViewBag.blogComment = _context.TbBlogComments.ToList();
+            return View(blogs);
         }
 
-        [Route("/blog/{alias}-{id}.html", Name = "Details")]
+        [Route("/blog/{alias}-{id}.html")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.TbBlogs == null)

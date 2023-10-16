@@ -7,7 +7,10 @@
     <li class="drop-holder">
         <a href="/@item.Alias">
             @item.Title
-            <i class="fa fa-chevron-down"></i>
+            @if (menuChild.Count() > 0)
+            {
+                <i class="fa fa-chevron-down"></i>
+            }
         </a>
         @if (menuChild.Count() > 0)
         {

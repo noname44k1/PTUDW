@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PTUDW.Models.TbProduct>
+
+@foreach(var item in Model)
+{
+    string sUrl = $"/product/{item.Alias}-{item.ProductId}.html";
+    <div class="col-xl-3 col-lg-4 col-sm-6">
+        <div class="product-item">
+            <div class="product-img img-zoom-effect">
+                <a href="single-product.html">
+                    <img class="img-full" src="@item.Image" alt="Product Images">
+                </a>
+                <div class="product-add-action">
+                    <ul>
+                        <li>
+                            <a href="cart.html">
+                                <i class="pe-7s-cart"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="compare.html">
+                                <i class="pe-7s-shuffle"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="wishlist.html">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-content">
+                <a class="product-name" href="@sUrl">@item.Title</a>
+                <div class="price-box pb-1">
+                    <span class="new-price">$@item.Price</span>
+                </div>
+                <div class="rating-box">
+                    <ul>
+                        <li><i class="pe-7s-star"></i></li>
+                        <li><i class="pe-7s-star"></i></li>
+                        <li><i class="pe-7s-star"></i></li>
+                        <li><i class="pe-7s-star"></i></li>
+                        <li><i class="pe-7s-star"></i></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}

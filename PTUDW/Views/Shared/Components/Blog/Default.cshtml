@@ -29,6 +29,7 @@
 {
     var blogId = item.BlogId;
     var commentCount = listComment.Where(i => i.BlogId == blogId);
+    string sUrl = $"/blog/{item.Alias}-{item.BlogId}.html";
     <div class="swiper-slide">
         <div class="blog-item">
             <div class="blog-img img-zoom-effect">
@@ -51,7 +52,7 @@
                     </ul>
                 </div>
                 <h5 class="title mb-4">
-                    <a href="">@item.Title</a>
+                    <a href="@sUrl">@item.Title</a>
                 </h5>
                 <p class="short-desc mb-5">@item.Description</p>
                 <div class="button-wrap">
