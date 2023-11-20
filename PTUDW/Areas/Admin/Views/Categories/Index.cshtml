@@ -1,0 +1,111 @@
+﻿@model IEnumerable<PTUDW.Models.TbCategory>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý danh mục</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Quản lý danh mục</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><a asp-action="Create">Thêm mới</a></h3>
+
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên danh mục</th>
+                                    <th>Liên kết</th>
+                                    <th>Mô tả</th>
+                                    <th>Vị trí</th>
+                                    <th>Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int i = 1;
+                                }
+                                @foreach(var item in Model)
+                                {
+                                    <tr id="tr_@item.CategoryId">
+                                        <td>@(i++)</td>
+                                        <td>@item.Title</td>
+                                        <td>@item.Alias</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.Position</td>
+                                        <td>
+                                            <button class="btn btn-success btn-sm" asp-action="Edit" asp-route-id="@item.CategoryId">Sửa</button> |
+                                            <button class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.CategoryId">Chi tiết</button> |
+                                            <button class="btn btn-danger btn-sm btn-delete" data-id="@item.CategoryId">Xóa</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                _id = $(this).data("id");
+                if(confirm("Bạn có muốn xóa không")){
+                    $.ajax({
+                        url: "/admin/categories/delete",
+                        type: "POST",
+                        data: { id: _id},
+                        success: function (result) {
+                            if (result) {
+                                $("#tr_" + _id).remove();
+                                toastr.success('Xóa thành công');
+                            }
+                            else {
+                                toastr.error('Xóa không thành công');
+                            }
+                        }
+                    })
+                }
+                
+            });
+        })
+    </script>
+}

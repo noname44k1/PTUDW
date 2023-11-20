@@ -27,9 +27,7 @@
 
     <!-- Style CSS -->
     <link rel="stylesheet" href="~/assets/css/style.css">
-
-    <link href="~/css/cute-alert.css" rel="stylesheet" />
-
+    <link href="~/assets/toastr/toastr.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -71,9 +69,12 @@
 
     <!--Main JS (Common Activation Codes)-->
     <script src="~/assets/js/main.js"></script>
+    <script src="~/assets/js/untils.js"></script>
 
-    <script src="~/js/cute-alert.js"></script>
+    <script src="~/assets/toastr/toastr.min.js"></script>
 
+    @*@await Component.InvokeAsync("Notyf")*@
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

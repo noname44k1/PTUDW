@@ -1,0 +1,77 @@
+﻿@model PTUDW.Models.TbCategory
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thêm mới danh mục</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
+                    <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý danh mục</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Title" class="control-label"></label>
+                                <input asp-for="Title" class="form-control" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Alias" class="control-label"></label>
+                                <input asp-for="Alias" class="form-control" />
+                                <span asp-validation-for="Alias" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <input asp-for="Description" class="form-control" />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Position" class="control-label"></label>
+                                <input asp-for="Position" class="form-control" />
+                                <span asp-validation-for="Position" class="text-danger"></span>
+                            </div>
+                            @*<div class="form-group">
+                                <label asp-for="SeoTitle" class="control-label"></label>
+                                <input asp-for="SeoTitle" class="form-control" />
+                                <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SeoDescription" class="control-label"></label>
+                                <input asp-for="SeoDescription" class="form-control" />
+                                <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SeoKeywords" class="control-label"></label>
+                                <input asp-for="SeoKeywords" class="form-control" />
+                                <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                            </div>*@
+                            <div class="form-group">
+                                <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-info">Quay lại</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

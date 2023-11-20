@@ -37,8 +37,30 @@ namespace PTUDW.Controllers
             {
                 return NotFound();
             }
-            ViewBag.blogComment = _context.TbBlogComments.Where(i=>i.BlogId == id).ToList();
+            ViewBag.blogComment = _context.TbBlogComments.Where(i => i.BlogId == id).ToList();
             return View(blog);
+        }
+
+        [HttpPost]
+        public IActionResult Create(int? id, string name, string phone, string email, string message)
+        {
+            try
+            {
+                TbBlogComment comment = new TbBlogComment();
+                comment.BlogId = id;
+                comment.Name = name;
+                comment.Phone = phone;
+                comment.Email = email;
+                comment.Detail = message;
+                comment.CreatedDate = DateTime.Now;
+                _context.Add(comment);
+                _context.SaveChangesAsync();
+                return Json(new { status = true });
+            }
+            catch
+            {
+                return Json(new { status = false });
+            }
         }
     }
 }

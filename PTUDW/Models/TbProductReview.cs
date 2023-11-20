@@ -17,6 +17,8 @@ public partial class TbProductReview
 
     public string? Detail { get; set; }
 
+    public int? Star { get; set; }
+
     public int? ProductId { get; set; }
 
     public bool IsActive { get; set; }

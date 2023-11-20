@@ -88,7 +88,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="blog-comment pt-10">
+                            <div id="blog_comment" class="blog-comment pt-10">
                                 <h4 class="heading mb-7">@blogComment.Count() Comments</h4>
                                 @foreach(var item in blogComment)
                                 {
@@ -104,7 +104,6 @@
                                                     Reply
                                                 </a>
                                             </div>
-                                            @*<span class="user-occupation text-primary">Web Developer</span>*@
                                             <p class="user-comment mb-0">@item.Detail</p>
                                             <a class="btn btn-link hover-white d-inline-flex d-md-none mt-5" href="javascript:void(0)">
                                                 <i class="fa fa-reply me-2"></i>
@@ -119,20 +118,21 @@
                                 <form class="feedback-form pt-8" action="#">
                                     <div class="group-input">
                                         <div class="form-field me-md-6 mb-6 mb-md-0">
-                                            <input type="text" name="name" placeholder="Your Name*" class="input-field">
+                                            <input id="c_name" type="text" name="name" placeholder="Your Name*" class="input-field">
                                         </div>
                                         <div class="form-field me-md-6 mb-6 mb-md-0">
-                                            <input type="text" name="email" placeholder="Your Email*" class="input-field">
+                                            <input id="c_phone" type="text" name="number" placeholder="Phone number*" class="input-field">
                                         </div>
                                         <div class="form-field">
-                                            <input type="text" name="number" placeholder="Phone number" class="input-field">
+                                            <input id="c_email" type="text" name="email" placeholder="Your Email*" class="input-field">
                                         </div>
+                                        
                                     </div>
                                     <div class="form-field mt-6">
-                                        <textarea name="message" placeholder="Message" class="textarea-field"></textarea>
+                                        <textarea id="c_message" name="message" placeholder="Message" class="textarea-field"></textarea>
                                     </div>
                                     <div class="button-wrap mt-8">
-                                        <button type="submit" value="submit" class="btn btn-custom-size lg-size btn-secondary btn-primary-hover btn-lg rounded-0" name="submit">Submit</button>
+                                        <button id="c_submit" type="button" value="submit" class="btn btn-custom-size lg-size btn-secondary btn-primary-hover btn-lg rounded-0" name="submit">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -143,4 +143,37 @@
         </div>
     </div>
 </main>
-
+<input type="hidden" id="blog_id" value="@Model.BlogId" />
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#c_submit").click(function () {
+                _id = $("#blog_id").val();
+                _name = $("#c_name").val();
+                _phone = $("#c_phone").val();
+                _email = $("#c_email").val();
+                _message = $("#c_message").val();
+                $.ajax({
+                    url: "/Blog/Create",
+                    type: "POST",
+                    data: { id: _id, name: _name, phone: _phone, email: _email, message: _message },
+                    success: function (result) {
+                        if (result != null) {
+                            $("#c_name").val("");
+                            $("#c_phone").val("");
+                            $("#c_email").val("");
+                            $("#c_message").val("");
+                            _date = Untils.getCurrentDate();
+                            toastr.success('Gửi thành công');
+                            _sHtml = '<div class="blog-comment-item mb-8"> <div class="blog-comment-img"> <img src="/assets/images/avatar/1.jpg" alt="Avatar"> </div> <div class="blog-comment-content"> <div class="user-meta"> <span><strong>' + _name + ' -</strong> ' + _date + '</span> <a class="btn btn-link hover-white d-none d-md-flex" href="javascript:void(0)"> <i class="fa fa-reply me-2"></i> Reply </a> </div> <p class="user-comment mb-0">' + _message + '</p> <a class="btn btn-link hover-white d-inline-flex d-md-none mt-5" href="javascript:void(0)"> <i class="fa fa-reply me-2"></i> Reply </a> </div> </div>';
+                            $("#blog_comment").append(_sHtml);
+                        }
+                        else {
+                            toastr.success('Gửi không thành công');
+                        }
+                    }
+                })
+            });
+        })
+    </script>
+}

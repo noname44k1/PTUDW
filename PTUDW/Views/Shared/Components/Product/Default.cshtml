@@ -6,7 +6,7 @@
     <div class="col-xl-3 col-lg-4 col-sm-6">
         <div class="product-item">
             <div class="product-img img-zoom-effect">
-                <a href="single-product.html">
+                <a href="@sUrl">
                     <img class="img-full" src="@item.Image" alt="Product Images">
                 </a>
                 <div class="product-add-action">
@@ -32,7 +32,15 @@
             <div class="product-content">
                 <a class="product-name" href="@sUrl">@item.Title</a>
                 <div class="price-box pb-1">
-                    <span class="new-price">$@item.Price</span>
+                    @if (item.PriceSale == 0)
+                    {
+                        <span class="new-price">$@item.Price</span>
+                    }
+                    else
+                    {
+                        <span class="new-price text-danger">$@item.PriceSale</span>
+                        <span class="old-price text-primary">$@item.Price</span>
+                    }
                 </div>
                 <div class="rating-box">
                     <ul>

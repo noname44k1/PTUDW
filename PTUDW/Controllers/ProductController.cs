@@ -25,13 +25,39 @@ namespace PTUDW.Controllers
                 return NotFound();
             }
 
-            var product = await _context.TbProducts
+            var product = await _context.TbProducts.Include(i=>i.CategoryProduct)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
             }
+            ViewBag.productReview = _context.TbProductReviews.Where(i=>i.ProductId == id && i.IsActive).ToList();
+            ViewBag.productRelated = _context.TbProducts.Where(i=>i.ProductId != id && i.CategoryProductId == product.CategoryProductId).Take(5).OrderByDescending(i=>i.ProductId).ToList();
             return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult Create(int? id, string name, string phone, string email, string message)
+        {
+            try
+            {
+                TbProductReview comment = new TbProductReview();
+                comment.ProductId = id;
+                comment.Name = name;
+                comment.Phone = phone;
+                comment.Email = email;
+                comment.Detail = message;
+                comment.CreatedDate = DateTime.Now;
+                comment.Star = 5;
+                comment.IsActive = true;
+                _context.Add(comment);
+                _context.SaveChangesAsync();
+                return Json(new { status = true });
+            }
+            catch
+            {
+                return Json(new { status = false });
+            }
         }
     }
 }
