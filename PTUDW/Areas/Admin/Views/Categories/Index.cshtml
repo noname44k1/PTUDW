@@ -66,9 +66,9 @@
                                         <td>@item.Description</td>
                                         <td>@item.Position</td>
                                         <td>
-                                            <button class="btn btn-success btn-sm" asp-action="Edit" asp-route-id="@item.CategoryId">Sửa</button> |
-                                            <button class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.CategoryId">Chi tiết</button> |
-                                            <button class="btn btn-danger btn-sm btn-delete" data-id="@item.CategoryId">Xóa</button>
+                                            <a class="btn btn-success btn-sm" asp-action="Edit" asp-route-id="@item.CategoryId">Sửa</a> |
+                                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.CategoryId">Chi tiết</a> |
+                                            <a class="btn btn-danger btn-sm btn-delete" data-id="@item.CategoryId">Xóa</a>
                                         </td>
                                     </tr>
                                 }

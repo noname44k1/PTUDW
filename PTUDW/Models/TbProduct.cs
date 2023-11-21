@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PTUDW.Models;
 
@@ -39,7 +40,7 @@ public partial class TbProduct
 
     public int? UnitInStock { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public virtual TbProductCategory? CategoryProduct { get; set; }
 
