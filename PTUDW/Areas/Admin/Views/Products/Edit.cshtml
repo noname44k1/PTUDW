@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
-                    <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý danh mục</a></li>
+                    <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý sản phẩm</a></li>
                 </ol>
             </div>
         </div>
@@ -51,14 +51,19 @@
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Detail" class="control-label"></label>
-                                <input asp-for="Detail" class="form-control" />
-                                <span asp-validation-for="Detail" class="text-danger"></span>
+                                <label asp-for="Image" class="control-label"></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-success" onclick="openDialog()">Choose a picture</button>
+                                    </div>
+                                    <!-- /btn-group -->
+                                    <input type="text" class="form-control" id="file_input" asp-for="Image" aria-describedby="button-addon2">
+                                </div>
+                                <span asp-validation-for="Image" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Image" class="control-label"></label>
-                                <input asp-for="Image" class="form-control" />
-                                <span asp-validation-for="Image" class="text-danger"></span>
+                                <label asp-for="Detail" class="control-label"></label>
+                                <textarea asp-for="Detail" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Price" class="control-label"></label>
@@ -96,3 +101,8 @@
         </div>
     </div>
 </section>
+
+@{
+    var summerNote = new PTUDW.Areas.Admin.Models.SummerNote("#Detail");
+    <partial name="_SummerNote" model="summerNote" />
+}

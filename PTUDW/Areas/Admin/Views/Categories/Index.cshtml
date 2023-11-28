@@ -22,77 +22,73 @@
 </section>
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title"><a asp-action="Create">Thêm mới</a></h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><a asp-action="Create">Thêm mới</a></h3>
 
-                        <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-hover text-nowrap">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên danh mục</th>
-                                    <th>Liên kết</th>
-                                    <th>Mô tả</th>
-                                    <th>Vị trí</th>
-                                    <th>Chức năng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int i = 1;
-                                }
-                                @foreach(var item in Model)
-                                {
-                                    <tr id="tr_@item.CategoryId">
-                                        <td>@(i++)</td>
-                                        <td>@item.Title</td>
-                                        <td>@item.Alias</td>
-                                        <td>@item.Description</td>
-                                        <td>@item.Position</td>
-                                        <td>
-                                            <a class="btn btn-success btn-sm" asp-action="Edit" asp-route-id="@item.CategoryId">Sửa</a> |
-                                            <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.CategoryId">Chi tiết</a> |
-                                            <a class="btn btn-danger btn-sm btn-delete" data-id="@item.CategoryId">Xóa</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên danh mục</th>
+                            <th>Liên kết</th>
+                            <th>Mô tả</th>
+                            <th>Vị trí</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 1;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            <tr id="tr_@item.CategoryId">
+                                <td>@(i++)</td>
+                                <td>@item.Title</td>
+                                <td>@item.Alias</td>
+                                <td>@item.Description</td>
+                                <td>@item.Position</td>
+                                <td>
+                                    <a class="btn btn-success btn-sm" asp-action="Edit" asp-route-id="@item.CategoryId">Sửa</a> |
+                                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.CategoryId">Chi tiết</a> |
+                                    <a class="btn btn-danger btn-sm btn-delete" data-id="@item.CategoryId">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
         </div>
+        <!-- /.card -->
     </div>
 </section>
 
-@section Scripts{
+@section Scripts {
     <script>
         $(document).ready(function () {
             $(".btn-delete").click(function () {
                 _id = $(this).data("id");
-                if(confirm("Bạn có muốn xóa không")){
+                if (confirm("Bạn có muốn xóa không")) {
                     $.ajax({
                         url: "/admin/categories/delete",
                         type: "POST",
-                        data: { id: _id},
+                        data: { id: _id },
                         success: function (result) {
                             if (result) {
                                 $("#tr_" + _id).remove();
@@ -104,7 +100,7 @@
                         }
                     })
                 }
-                
+
             });
         })
     </script>

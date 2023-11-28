@@ -2,6 +2,7 @@
 using elFinder.NetCore;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace PTUDW.Areas.Admin.Controllers
 {
@@ -18,7 +19,16 @@ namespace PTUDW.Areas.Admin.Controllers
         public async Task<IActionResult> Connector()
         {
             var connector = GetConnector();
-            return await connector.ProcessAsync(Request);
+            var result = await connector.ProcessAsync(Request);
+            if(result is JsonResult)
+            {
+                var json = result as JsonResult;
+                return Content(JsonSerializer.Serialize(json.Value), json.ContentType);
+            }
+            else
+            {
+                return Json(result);
+            }
         }
 
         // Địa chỉ để truy vấn thumbnail

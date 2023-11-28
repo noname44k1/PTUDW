@@ -5,16 +5,31 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<!-- include libraries(jQuery, bootstrap) -->
+@* <script src="~/admin/lib/snote/jquery.min.js"></script> *@
+@* <script src="~/admin/lib/snote/bootstrap.bundle.min.js"></script> *@
+@* <link href="~/admin/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" /> *@
+@* <script src="~/admin/lib/snote/summernote-bs4.min.js"></script> *@
+@* <link rel="stylesheet" href="~/admin/lib/snote/summernote-bs4.min.css" /> *@
+
+<link href="~/admin/lib/jqueryui/themes/themes/base/theme.css" rel="stylesheet" />
+<link href="~/admin/lib/jqueryui/themes/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/admin/lib/elFinder/css/elfinder.full.css" rel="stylesheet" />
+<link href="~/admin/lib/elFinder/css/theme.css" rel="stylesheet" />
+
+@* <script src="~/admin/lib/jqueryui/jquery-ui.js"></script> *@
+<script src="~/admin/lib/elFinder/js/elfinder.min.js"></script>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Thêm mới danh mục</h1>
+                <h1>Thêm mới Sản phẩm</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/admin">Trang chủ</a></li>
-                    <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý danh mục</a></li>
+                    <li class="breadcrumb-item active"><a href="/admin/categories">Quản lý Sản phẩm</a></li>
                 </ol>
             </div>
         </div>
@@ -26,7 +41,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <form asp-action="Create">
+                        <form asp-action="Create" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="Title" class="control-label"></label>
@@ -50,14 +65,19 @@
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Detail" class="control-label"></label>
-                                <input asp-for="Detail" class="form-control" />
-                                <span asp-validation-for="Detail" class="text-danger"></span>
+                                <label asp-for="Image" class="control-label"></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-success" onclick="openDialog()">Choose a picture</button>
+                                    </div>
+                                    <!-- /btn-group -->
+                                    <input type="text" class="form-control" id="file_input" asp-for="Image" aria-describedby="button-addon2">
+                                </div>
+                                <span asp-validation-for="Image" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Image" class="control-label"></label>
-                                <input asp-for="Image" class="form-control" />
-                                <span asp-validation-for="Image" class="text-danger"></span>
+                                <label asp-for="Detail" class="control-label"></label>
+                                <textarea asp-for="Detail" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Price" class="control-label"></label>
@@ -95,3 +115,8 @@
         </div>
     </div>
 </section>
+
+@{
+    var summerNote = new PTUDW.Areas.Admin.Models.SummerNote("#Detail");
+    <partial name="_SummerNote" model="summerNote" />
+}

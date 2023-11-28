@@ -10,6 +10,7 @@ builder.Services.AddDbContext<HarmicContext>(options =>
 });
 
 // Add services to the container.
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 5; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 
