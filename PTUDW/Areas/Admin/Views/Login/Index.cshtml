@@ -32,7 +32,7 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form class="needs-validated" asp-controller="Login" novalidate asp-action="Index">
+                <form class="needs-validated" asp-controller="Login" asp-action="Index">
                     <div class="input-group mb-3">
                         <input type="text" asp-for="Username" class="form-control" placeholder="Username" required>
                         <div class="input-group-append">
@@ -86,7 +86,7 @@
                     <a href="forgot-password.html">I forgot my password</a>
                 </p>
                 <p class="mb-0">
-                    <a href="register.html" class="text-center">Register a new membership</a>
+                    <a href="/admin/register" class="text-center">Register a new membership</a>
                 </p>
             </div>
             <!-- /.login-card-body -->

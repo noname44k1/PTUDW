@@ -18,7 +18,7 @@ namespace PTUDW.Areas.Admin.Controllers
             Function._AccountId = 0;
             Function._Username = string.Empty;
             Function._Message = string.Empty;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Login");
         }
     }
 }

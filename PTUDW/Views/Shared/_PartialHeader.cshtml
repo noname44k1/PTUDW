@@ -1,4 +1,8 @@
-﻿<header class="main-header_area position-relative">
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+
+<header class="main-header_area position-relative">
     <div class="header-top border-bottom d-none d-md-block">
         <div class="container">
             <div class="row align-items-center">
@@ -50,12 +54,7 @@
                         <div class="header-search-area d-none d-lg-block">
                             <form action="#" class="header-searchbox">
                                 <select class="nice-select select-search-category wide">
-                                    <option value="all">All Category</option>
-                                    <option value="product-item">Product Item</option>
-                                    <option value="product-item-2">Product Item 02</option>
-                                    <option value="product-item-3">Product Item 03</option>
-                                    <option value="product-item-4">Product Item 04</option>
-                                    <option value="product-item-5">Product Item 05</option>
+                                    <option value="0">All Category</option>
                                 </select>
                                 <input class="input-field" type="text" placeholder="Search Products">
                                 <button class="btn btn-outline-whisper btn-primary-hover" type="submit"><i class="pe-7s-search"></i></button>
@@ -83,9 +82,22 @@
                                     </a>
                                 </li>
                                 <li class="minicart-wrap me-3 me-lg-0">
-                                    <a href="#miniCart" class="minicart-btn toolbar-btn">
+                                    @* <a href="#miniCart" class="minicart-btn toolbar-btn"> *@
+                                    <a href="/cart" class="minicart-btn">
                                         <i class="pe-7s-shopbag"></i>
-                                        <span class="quantity">3</span>
+                                        
+                                            @{
+                                                var session = HttpContextAccessor.HttpContext.Session;
+                                                string jsoncart = session.GetString(PTUDW.Controllers.ProductController.CARTKEY);
+                                                if (jsoncart != null)
+                                                {
+                                                    var cart = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
+                                                <span class="quantity">
+                                                    @cart.Count
+                                                </span>
+                                                }
+                                            }
+                                        
                                     </a>
                                 </li>
                                 <li class="mobile-menu_wrap d-block d-lg-none">
@@ -110,159 +122,159 @@
                                 <ul>
                                     @await Component.InvokeAsync("MenuTop")
                                     @*<li>
-                                        <a href="about.html">About</a>
+                                    <a href="about.html">About</a>
                                     </li>
                                     <li class="megamenu-holder">
-                                        <a href="javascript:void(0)">
-                                            Shop
-                                            <i class="fa fa-chevron-down"></i>
-                                        </a>
-                                        <ul class="drop-menu megamenu">
-                                            <li>
-                                                <span class="title">Shop Layout</span>
-                                                <ul>
-                                                    <li>
-                                                        <a href="shop.html">Shop Default</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="shop-right-sidebar.html">Shop Right Sidebar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="shop-list-fullwidth.html">Shop List Fullwidth</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="shop-list-left-sidebar.html">Shop List Left Sidebar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <span class="title">Product Style</span>
-                                                <ul>
-                                                    <li>
-                                                        <a href="single-product.html">Single Product Default</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product-group.html">Single Product Group</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product-variable.html">Single Product Variable</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product-sale.html">Single Product Sale</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product-sticky.html">Single Product Sticky</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product-affiliate.html">Single Product Affiliate</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <span class="title">Product Related</span>
-                                                <ul>
-                                                    <li>
-                                                        <a href="my-account.html">My Account</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="login-register.html">Login | Register</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="cart.html">Shopping Cart</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="wishlist.html">Wishlist</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="compare.html">Compare</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="checkout.html">Checkout</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-slider-wrap">
-                                                <div class="swiper-container menu-slider">
-                                                    <div class="swiper-wrapper">
-                                                        <div class="swiper-slide img-zoom-effect with-overlay">
-                                                            <a href="#" class="single-item">
-                                                                <img class="img-full" src="~/assets/images/megamenu/slider/1.jpg" alt="Megamenu Slider">
-                                                            </a>
-                                                        </div>
-                                                        <div class="swiper-slide img-zoom-effect with-overlay">
-                                                            <a href="#" class="single-item">
-                                                                <img class="img-full" src="~/assets/images/megamenu/slider/2.jpg" alt="Megamenu Slider">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="drop-holder">
-                                        <a href="javascript:void(0)">
-                                            Pages
-                                            <i class="fa fa-chevron-down"></i>
-                                        </a>
-                                        <ul class="drop-menu">
-                                            <li>
-                                                <a href="faq.html">Frequently Questions</a>
-                                            </li>
-                                            <li>
-                                                <a href="404.html">Error 404</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="drop-holder">
-                                        <a href="javascript:void(0)">
-                                            Blog
-                                            <i class="fa fa-chevron-down"></i>
-                                        </a>
-                                        <ul class="drop-menu">
-                                            <li class="sub-dropdown-holder">
-                                                <a href="javascript:void(0)">Blog Holder</a>
-                                                <ul class="drop-menu sub-dropdown">
-                                                    <li>
-                                                        <a href="blog.html">Blog Default</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="blog-left-sidebar.html">Blog Left Sidebar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="blog-right-sidebar.html">Blog Right Sidebar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="blog-list-left-sidebar.html">Blog List Left Sidebar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="sub-dropdown-holder">
-                                                <a href="javascript:void(0)">Blog Detail Holder</a>
-                                                <ul class="drop-menu sub-dropdown">
-                                                    <li>
-                                                        <a href="blog-detail.html">Blog Detail Default</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="blog-detail-left-sidebar.html">Blog Detail Left Sidebar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="blog-detail-right-sidebar.html">Blog Detail Right Sidebar</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                    <a href="javascript:void(0)">
+                                    Shop
+                                    <i class="fa fa-chevron-down"></i>
+                                    </a>
+                                    <ul class="drop-menu megamenu">
+                                    <li>
+                                    <span class="title">Shop Layout</span>
+                                    <ul>
+                                    <li>
+                                    <a href="shop.html">Shop Default</a>
                                     </li>
                                     <li>
-                                        <a href="contact.html">Contact</a>
+                                    <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
+                                    </li>
+                                    <li>
+                                    <a href="shop-right-sidebar.html">Shop Right Sidebar</a>
+                                    </li>
+                                    <li>
+                                    <a href="shop-list-fullwidth.html">Shop List Fullwidth</a>
+                                    </li>
+                                    <li>
+                                    <a href="shop-list-left-sidebar.html">Shop List Left Sidebar</a>
+                                    </li>
+                                    <li>
+                                    <a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li>
+                                    <span class="title">Product Style</span>
+                                    <ul>
+                                    <li>
+                                    <a href="single-product.html">Single Product Default</a>
+                                    </li>
+                                    <li>
+                                    <a href="single-product-group.html">Single Product Group</a>
+                                    </li>
+                                    <li>
+                                    <a href="single-product-variable.html">Single Product Variable</a>
+                                    </li>
+                                    <li>
+                                    <a href="single-product-sale.html">Single Product Sale</a>
+                                    </li>
+                                    <li>
+                                    <a href="single-product-sticky.html">Single Product Sticky</a>
+                                    </li>
+                                    <li>
+                                    <a href="single-product-affiliate.html">Single Product Affiliate</a>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li>
+                                    <span class="title">Product Related</span>
+                                    <ul>
+                                    <li>
+                                    <a href="my-account.html">My Account</a>
+                                    </li>
+                                    <li>
+                                    <a href="login-register.html">Login | Register</a>
+                                    </li>
+                                    <li>
+                                    <a href="cart.html">Shopping Cart</a>
+                                    </li>
+                                    <li>
+                                    <a href="wishlist.html">Wishlist</a>
+                                    </li>
+                                    <li>
+                                    <a href="compare.html">Compare</a>
+                                    </li>
+                                    <li>
+                                    <a href="checkout.html">Checkout</a>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li class="menu-slider-wrap">
+                                    <div class="swiper-container menu-slider">
+                                    <div class="swiper-wrapper">
+                                    <div class="swiper-slide img-zoom-effect with-overlay">
+                                    <a href="#" class="single-item">
+                                    <img class="img-full" src="~/assets/images/megamenu/slider/1.jpg" alt="Megamenu Slider">
+                                    </a>
+                                    </div>
+                                    <div class="swiper-slide img-zoom-effect with-overlay">
+                                    <a href="#" class="single-item">
+                                    <img class="img-full" src="~/assets/images/megamenu/slider/2.jpg" alt="Megamenu Slider">
+                                    </a>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li class="drop-holder">
+                                    <a href="javascript:void(0)">
+                                    Pages
+                                    <i class="fa fa-chevron-down"></i>
+                                    </a>
+                                    <ul class="drop-menu">
+                                    <li>
+                                    <a href="faq.html">Frequently Questions</a>
+                                    </li>
+                                    <li>
+                                    <a href="404.html">Error 404</a>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li class="drop-holder">
+                                    <a href="javascript:void(0)">
+                                    Blog
+                                    <i class="fa fa-chevron-down"></i>
+                                    </a>
+                                    <ul class="drop-menu">
+                                    <li class="sub-dropdown-holder">
+                                    <a href="javascript:void(0)">Blog Holder</a>
+                                    <ul class="drop-menu sub-dropdown">
+                                    <li>
+                                    <a href="blog.html">Blog Default</a>
+                                    </li>
+                                    <li>
+                                    <a href="blog-left-sidebar.html">Blog Left Sidebar</a>
+                                    </li>
+                                    <li>
+                                    <a href="blog-right-sidebar.html">Blog Right Sidebar</a>
+                                    </li>
+                                    <li>
+                                    <a href="blog-list-left-sidebar.html">Blog List Left Sidebar</a>
+                                    </li>
+                                    <li>
+                                    <a href="blog-list-right-sidebar.html">Blog List Right Sidebar</a>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li class="sub-dropdown-holder">
+                                    <a href="javascript:void(0)">Blog Detail Holder</a>
+                                    <ul class="drop-menu sub-dropdown">
+                                    <li>
+                                    <a href="blog-detail.html">Blog Detail Default</a>
+                                    </li>
+                                    <li>
+                                    <a href="blog-detail-left-sidebar.html">Blog Detail Left Sidebar</a>
+                                    </li>
+                                    <li>
+                                    <a href="blog-detail-right-sidebar.html">Blog Detail Right Sidebar</a>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li>
+                                    <a href="contact.html">Contact</a>
                                     </li>*@
                                 </ul>
                             </nav>

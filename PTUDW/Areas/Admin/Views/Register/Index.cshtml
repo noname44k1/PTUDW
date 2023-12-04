@@ -22,9 +22,13 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/admin/dist/css/adminlte.min.css">
 
-    <style>
-        .input-group-text{
-            border-color: red;
+    <style type="text/css">
+        .form-control {
+            border-right: 1px solid blue;
+        }
+        .error {
+            color: red;
+            display:block;
         }
     </style>
 </head>
@@ -38,9 +42,9 @@
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new membership</p>
 
-                <form class="was-validated" asp-controller="Register" novalidate asp-action="Index">
-                    <div class="input-group mb-3">
-                        <input type="text" asp-for="FullName" class="form-control" placeholder="Full name" required>
+                <form id="validate" class="needs-validation" asp-controller="Register" asp-action="Index">
+                    <div class="input-group mb-3" style="border-right:1px;">
+                        <input type="text" asp-for="FullName" class="form-control" placeholder="Full name" required style="display:block;width:100%;">
                         @* <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -49,16 +53,16 @@
                         <div class="invalid-feedback">Please enter full name</div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" asp-for="Username" class="form-control" placeholder="Username" required>
+                        <input type="text" id="Username" asp-for="Username" class="form-control display" placeholder="Username" required style="display:block;width:100%;">
                         @* <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div> *@
-                        <div class="invalid-feedback">Please enter user name</div>                       
+                        @* <div class="invalid-feedback">Please enter user name</div>                        *@
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" asp-for="Password" class="form-control" placeholder="Password" required>
+                        <input type="password" id="Password" name="Password" asp-for="Password" class="form-control display" placeholder="Password" required style="display:block;width:100%;">
                         @* <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -66,16 +70,16 @@
                         </div> *@
                         <div class="invalid-feedback">Please enter password</div>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" id="Retypepassword" class="form-control" placeholder="Retype password" required>
+                    <div class="input-group mb-3" style="border-right:1px;">
+                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Retype password" required style="display:block;width:100%;">
                         @* <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div> *@
                         <div class="invalid-feedback">Retype password does not match</div>
-                        
                     </div>
+                    <div style="margin-top: 7px;" id="CheckPasswordMatch"></div>
                     <div style="color:red">@Function._Message</div>
                     <div class="row">
                         <div class="col-8">
@@ -92,9 +96,10 @@
                         </div>
                         <!-- /.col -->
                     </div>
+
                 </form>
 
-                <a href="login.html" class="text-center">I already have a membership</a>
+                <a href="/admin/login" class="text-center">I already have a membership</a>
             </div>
             <!-- /.form-box -->
         </div><!-- /.card -->
@@ -106,5 +111,31 @@
     <script src="~/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/admin/dist/js/adminlte.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/additional-methods.min.js"></script>
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#validate").validate({
+            rules: {
+                Username: 'required',
+                Password: 'required',
+                ConfirmPassword: {
+                    required: true,
+                    equalTo: "#Password",
+                },
+            },
+            messages: {
+                Username: 'Username is required',
+                Password: 'Current Password is required',
+                ConfirmPassword: {
+                    required: 'Confirm Password is required',
+                    equalTo: 'Password not matching',
+                }
+            },
+        });
+    });
+</script>

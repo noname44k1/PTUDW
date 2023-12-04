@@ -8,7 +8,7 @@ public partial class TbProduct
 {
     public int ProductId { get; set; }
 
-    public string? Title { get; set; }
+    public string Title { get; set; }
 
     public string? Alias { get; set; }
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PTUDW.Models;
+using PTUDW.Utilities;
 
 namespace PTUDW.Areas.Admin.Controllers
 {
@@ -22,7 +23,9 @@ namespace PTUDW.Areas.Admin.Controllers
         // GET: Admin/Categories
         public async Task<IActionResult> Index()
         {
-              return _context.TbCategories != null ? 
+            if (!Function.IsLogin())
+                return RedirectToAction("Index", "Login");
+            return _context.TbCategories != null ? 
                           View(await _context.TbCategories.ToListAsync()) :
                           Problem("Entity set 'HarmicContext.TbCategories'  is null.");
         }

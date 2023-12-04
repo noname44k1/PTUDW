@@ -20,9 +20,13 @@ namespace PTUDW.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            var harmicContext = _context.TbProducts.Include(t => t.CategoryProduct);
+            var harmicContext = _context.TbProducts.Include(t => t.CategoryProduct).Where(i => i.IsActive);
+            if (!string.IsNullOrEmpty(search))
+            {
+                harmicContext = harmicContext.Where(i => i.Title.ToLower().Contains(search.ToLower()));
+            }
             return View(await harmicContext.ToListAsync());
         }
 
