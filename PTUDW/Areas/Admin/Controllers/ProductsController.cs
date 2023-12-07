@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PTUDW.Models;
+using PTUDW.Utilities;
 
 namespace PTUDW.Areas.Admin.Controllers
 {
@@ -22,6 +23,8 @@ namespace PTUDW.Areas.Admin.Controllers
         // GET: Admin/Products
         public async Task<IActionResult> Index(string search)
         {
+            if (!Function.IsLogin())
+                return RedirectToAction("Index", "Login");
             var harmicContext = _context.TbProducts.Include(t => t.CategoryProduct).Where(i => i.IsActive);
             if (!string.IsNullOrEmpty(search))
             {

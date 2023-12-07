@@ -60,7 +60,7 @@ namespace PTUDW.Controllers
                 return Json(new { status = false });
             }
         }
-
+        //Giỏ hàng--------------------------
         /// Thêm sản phẩm vào cart
         [Route("addcart/{productid:int}", Name = "addcart")]
         public IActionResult AddToCart([FromRoute] int productid)
