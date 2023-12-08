@@ -32,7 +32,7 @@
             <div class="product-content">
                 <a class="product-name" href="@sUrl">@item.Title</a>
                 <div class="price-box pb-1">
-                    @if (item.PriceSale == 0)
+                    @if (item.PriceSale == 0 || item.PriceSale == null)
                     {
                         <span class="new-price">$@item.Price</span>
                     }
@@ -44,11 +44,10 @@
                 </div>
                 <div class="rating-box">
                     <ul>
-                        <li><i class="pe-7s-star"></i></li>
-                        <li><i class="pe-7s-star"></i></li>
-                        <li><i class="pe-7s-star"></i></li>
-                        <li><i class="pe-7s-star"></i></li>
-                        <li><i class="pe-7s-star"></i></li>
+                        @for(int i = 1; i <= item.Star; i++)
+                        {
+                            <li><i class="pe-7s-star"></i></li>
+                        }
                     </ul>
                 </div>
             </div>

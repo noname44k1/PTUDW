@@ -71,7 +71,7 @@
                         <div class="checkbox-form">
                             <h3>Billing Details</h3>
                             <div class="row">
-                                <div class="col-md-12">
+                                @* <div class="col-md-12">
                                     <div class="country-select clearfix">
                                         <label>Country <span class="required">*</span></label>
                                         <select class="myniceselect nice-select wide">
@@ -83,32 +83,32 @@
                                             <option value="aus">Australia</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> *@
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label>First Name <span class="required">*</span></label>
-                                        <input placeholder="" type="text">
+                                        <label>Name <span class="required">*</span></label>
+                                        <input placeholder="" type="text" id="c_name">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                @* <div class="col-md-6">
                                     <div class="checkout-form-list">
                                         <label>Last Name <span class="required">*</span></label>
                                         <input placeholder="" type="text">
                                     </div>
-                                </div>
+                                </div> *@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label>Company Name</label>
-                                        <input placeholder="" type="text">
+                                        <label>Phone <span class="required">*</span></label>
+                                        <input placeholder="" type="text" id="c_phone">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>Address <span class="required">*</span></label>
-                                        <input placeholder="Street address" type="text">
+                                        <input placeholder="Street address" type="text" id="c_address">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                @* <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
                                     </div>
@@ -142,8 +142,8 @@
                                         <label>Phone <span class="required">*</span></label>
                                         <input type="text">
                                     </div>
-                                </div>
-                                <div class="col-md-12">
+                                </div> *@
+                                @* <div class="col-md-12">
                                     <div class="checkout-form-list create-acc">
                                         <input id="cbox" type="checkbox">
                                         <label for="cbox">Create an account?</label>
@@ -156,7 +156,7 @@
                                         <label>Account password <span class="required">*</span></label>
                                         <input placeholder="password" type="password">
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
                             <div class="different-address">
                                 <div class="ship-different-title">
@@ -266,7 +266,7 @@
                                 <tbody>
                                     @foreach (var cartitem in Model)
                                     {
-                                        int thanhtien = cartitem.quantity * (int)cartitem.product.Price;
+                                        int thanhtien = cartitem.quantity * cartitem.product.PriceSale == 0 ? (int)cartitem.product.Price : (int)cartitem.product.PriceSale;
                                         total += thanhtien;
                                         <tr class="cart_item">
                                             <td class="cart-product-name">
@@ -352,7 +352,7 @@
                                     </div>
                                 </div>
                                 <div class="order-button-payment">
-                                    <input value="Place order" type="submit">
+                                    <input value="Place order" type="button" id="c_submit">
                                 </div>
                             </div>
                         </div>
@@ -362,3 +362,29 @@
         </div>
     </div>
 </main>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#c_submit").click(function () {
+                _name = $("#c_name").val();
+                _phone = $("#c_phone").val();
+                _address = $("#c_address").val();
+                $.ajax({
+                    url: "/Product/Order",
+                    type: "POST",
+                    data: { name: _name, phone: _phone, address: _address },
+                    success: function (result) {
+                        if (result) {
+                            $("#c_submit").hide();
+                            toastr.success('Đặt hàng thành công');
+                        }
+                        else {
+                            toastr.success('Đặt hàng không thành công');
+                        }
+                    }
+                })
+            });
+        })
+    </script>
+}

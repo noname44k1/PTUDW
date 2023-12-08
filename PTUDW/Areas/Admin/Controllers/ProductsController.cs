@@ -23,8 +23,8 @@ namespace PTUDW.Areas.Admin.Controllers
         // GET: Admin/Products
         public async Task<IActionResult> Index(string search)
         {
-            if (!Function.IsLogin())
-                return RedirectToAction("Index", "Login");
+            //if (!Function.IsLogin())
+            //    return RedirectToAction("Index", "Login");
             var harmicContext = _context.TbProducts.Include(t => t.CategoryProduct).Where(i => i.IsActive);
             if (!string.IsNullOrEmpty(search))
             {
@@ -68,6 +68,7 @@ namespace PTUDW.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                tbProduct.Alias = Function.TitleSlugGenerationAlias(tbProduct.Title);
                 _context.Add(tbProduct);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -150,21 +151,28 @@ namespace PTUDW.Areas.Admin.Controllers
 
         // POST: Admin/Products/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        //[ValidateAntiForgeryToken]
+        public bool DeleteConfirmed(int id)
         {
-            if (_context.TbProducts == null)
+            try
             {
-                return Problem("Entity set 'HarmicContext.TbProducts'  is null.");
+                if (_context.TbProducts == null)
+                {
+                    return false;
+                }
+                var tbCategory = _context.TbProducts.Find(id);
+                if (tbCategory != null)
+                {
+                    _context.TbProducts.Remove(tbCategory);
+                }
+
+                _context.SaveChangesAsync();
+                return true;
             }
-            var tbProduct = await _context.TbProducts.FindAsync(id);
-            if (tbProduct != null)
+            catch
             {
-                _context.TbProducts.Remove(tbProduct);
+                return false;
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool TbProductExists(int id)

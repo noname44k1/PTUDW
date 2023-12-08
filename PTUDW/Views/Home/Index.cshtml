@@ -153,7 +153,7 @@
                             All Items
                         </a>
                     </li>
-                    @foreach (var item in productCategories)
+                    @foreach (var item in productCategories.Where(i=>(bool)i.IsActive))
                     {
                         <li class="nav-item" role="presentation">
                             <a id="@item.Alias-tab" data-bs-toggle="tab" href="#@item.Alias" role="tab" aria-controls="fresh-fruits" aria-selected="false">

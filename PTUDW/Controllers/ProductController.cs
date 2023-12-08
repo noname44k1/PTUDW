@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using PTUDW.Models;
 
@@ -142,6 +143,57 @@ namespace PTUDW.Controllers
             return View(GetCartItems());
         }
 
+        public bool Order(string name, string phone, string address)
+        {
+            // Xử lý khi đặt hàng thành công
+            try
+            {
+                var cart = GetCartItems();
+                if(cart.IsNullOrEmpty())
+                {
+                    return false;
+                }
+                int totalAmount = 0;
+                foreach (var item in cart)
+                {
+                    if(item.product.PriceSale == 0)
+                    {
+                        totalAmount += item.quantity * (int)item.product.Price;
+                    }
+                    else
+                    {
+                        totalAmount += item.quantity * (int)item.product.PriceSale;
+                    }
+                }
+                var order = new TbOrder();
+                order.CustomerName = name;
+                order.Phone = phone;
+                order.Address = address;
+                order.TotalAmount = totalAmount;
+                order.OrderStatusId = 1;
+                order.CreatedDate = DateTime.Now;
+                _context.TbOrders.Add(order);
+                _context.SaveChanges();
+                int orderId = order.OrderId;
+                foreach(var item in cart)
+                {
+                    var orderDetail = new TbOrderDetail();
+                    orderDetail.OrderId = orderId;
+                    orderDetail.ProductId=item.product.ProductId;
+                    orderDetail.Price = item.product.Price;
+                    orderDetail.Quantity = item.quantity;
+                    _context.TbOrderDetails.Add(orderDetail);
+                    _context.SaveChanges();
+                }
+                ClearCart();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         //------------------
 
         public const string CARTKEY = "cart";
@@ -149,7 +201,6 @@ namespace PTUDW.Controllers
         // Lấy cart từ Session (danh sách CartItem)
         List<CartItem> GetCartItems()
         {
-
             var session = HttpContext.Session;
             string jsoncart = session.GetString(CARTKEY);
             if (jsoncart != null)

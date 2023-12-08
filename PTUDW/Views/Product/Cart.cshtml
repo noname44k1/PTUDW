@@ -50,7 +50,7 @@
                                     <tbody>
                                         @foreach (var cartitem in Model)
                                         {
-                                            int thanhtien = cartitem.quantity * (int)cartitem.product.Price;
+                                            int thanhtien = cartitem.quantity * cartitem.product.PriceSale == 0 ? (int)cartitem.product.Price : (int)cartitem.product.PriceSale;
                                             total += thanhtien;
                                             <tr>
                                                 <td class="product_remove">
@@ -67,7 +67,7 @@
                                                     </a>
                                                 </td> *@
                                                 <td class="product-name"><a href="javascript:void(0)">@cartitem.product.Title</a></td>
-                                                <td class="product-price"><span class="amount">$@cartitem.product.Price</span></td>
+                                                <td class="product-price"><span class="amount">$@(cartitem.product.PriceSale == 0 ? (int)cartitem.product.Price : (int)cartitem.product.PriceSale)</span></td>
                                                 <td class="quantity">
                                                     <div class="cart-plus-minus">
                                                         <input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.ProductId}")"  class="cart-plus-minus-box" type="text">
