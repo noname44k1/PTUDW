@@ -50,7 +50,7 @@
                                     <tbody>
                                         @foreach (var cartitem in Model)
                                         {
-                                            int thanhtien = cartitem.quantity * cartitem.product.PriceSale == 0 ? (int)cartitem.product.Price : (int)cartitem.product.PriceSale;
+                                            int thanhtien = cartitem.quantity * (cartitem.product.PriceSale == 0 ? (int)cartitem.product.Price : (int)cartitem.product.PriceSale);
                                             total += thanhtien;
                                             <tr>
                                                 <td class="product_remove">

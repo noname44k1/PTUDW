@@ -12,6 +12,7 @@
         {
             return SlugGenerator.SlugGenerator.GenerateSlug(title);
         }
+
         public static string TitleSlugGeneration(string type, string title, int id)
         {
             string url = string.Empty;

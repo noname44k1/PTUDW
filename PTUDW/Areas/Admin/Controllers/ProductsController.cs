@@ -110,6 +110,7 @@ namespace PTUDW.Areas.Admin.Controllers
             {
                 try
                 {
+                    tbProduct.Alias = Function.TitleSlugGenerationAlias(tbProduct.Title);
                     _context.Update(tbProduct);
                     await _context.SaveChangesAsync();
                 }
